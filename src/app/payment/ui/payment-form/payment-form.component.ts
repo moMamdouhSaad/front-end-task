@@ -14,6 +14,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit {
+  public months: { value: string; name: string }[] = [
+    { value: '1', name: 'January' },
+    { value: '2', name: 'February' },
+    { value: '3', name: 'March' },
+    { value: '4', name: 'April' },
+    { value: '5', name: 'May' },
+    { value: '6', name: 'June' },
+    { value: '7', name: 'July' },
+    { value: '8', name: 'August' },
+    { value: '9', name: 'September' },
+    { value: '10', name: 'October' },
+    { value: '11', name: 'November' },
+    { value: '12', name: 'December' },
+  ];
+
   public constructor(private readonly fb: FormBuilder) {}
   public paymentFormGroup: FormGroup;
   public dateErrFlag = false;
@@ -55,7 +70,9 @@ export class PaymentFormComponent implements OnInit {
   }
 
   public submit(): void {
-    console.log(this.paymentFormGroup.value);
+    if (this.paymentFormGroup.valid) {
+      this.submitPayment.emit(this.paymentFormGroup.value);
+    }
   }
 
   public numberValidation(event): boolean {
