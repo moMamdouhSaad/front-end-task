@@ -2,7 +2,11 @@
   <div class="row center aligned ui grid">
     <div class="ten wide left aligned column">
       <payment-form (submitPayment)="submit($event)"></payment-form>
+      <div class="ui message" *ngIf="showSuccessfullMsg">
+        <p style="color: rgb(48, 150, 1); font-weight: bold">
+          * Successfully reached api, now you will redirect to home page
+        </p>
+      </div>
     </div>
   </div>
 </div>
-<!-- center aligned grid -->

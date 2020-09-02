@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'payment-form',
@@ -30,6 +31,8 @@ export class PaymentFormComponent implements OnInit {
   ];
 
   public constructor(private readonly fb: FormBuilder) {}
+  private _inProgress = false;
+
   public paymentFormGroup: FormGroup;
   public dateErrFlag = false;
 
@@ -72,7 +75,11 @@ export class PaymentFormComponent implements OnInit {
   public submit(): void {
     if (this.paymentFormGroup.valid) {
       this.submitPayment.emit(this.paymentFormGroup.value);
+      this._inProgress = true;
     }
+  }
+  public get inProgress(): boolean {
+    return this._inProgress;
   }
 
   public numberValidation(event): boolean {

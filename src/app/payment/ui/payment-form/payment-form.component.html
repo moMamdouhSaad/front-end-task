@@ -81,10 +81,11 @@
 
   <button
     class="ui primary button"
-    [disabled]="!paymentFormGroup.valid || dateErrFlag"
+    [disabled]="!paymentFormGroup.valid || dateErrFlag || inProgress"
     (click)="submit()"
     tabindex="0"
   >
     Submit Order
   </button>
+  <div *ngIf="inProgress" class="ui active inline loader"></div>
 </form>
