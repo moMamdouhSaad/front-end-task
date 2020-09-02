@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: '',
+  api: 'https://front-end-task22.herokuapp.com/test-api',
 };
