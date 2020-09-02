@@ -1,4 +1,4 @@
-<form class="ui form">
+<form class="ui form" [formGroup]="paymentFormGroup">
   <h4 class="ui dividing header">Billing Information</h4>
   <div class="field">
     <label>Card holder</label>
@@ -7,6 +7,7 @@
       name="card[holder]"
       maxlength="16"
       placeholder="Card holder name"
+      formControlName="cardholder"
     />
   </div>
 
@@ -15,20 +16,33 @@
       <label>Card Number</label>
       <input
         type="text"
-        name="card[number]"
+        name="card-number"
         maxlength="16"
         placeholder="Card #"
+        formControlName="cardno"
       />
     </div>
     <div class="three wide field">
       <label>CVC</label>
-      <input type="text" name="card[cvc]" maxlength="3" placeholder="CVC" />
+      <input
+        type="text"
+        name="card[cvc]"
+        maxlength="3"
+        placeholder="CVC"
+        formControlName="cvc"
+        (keypress)="numberValidation($event)"
+      />
     </div>
     <div class="six wide field">
       <label>Expiration</label>
       <div class="two fields">
         <div class="field">
-          <select class="ui fluid search dropdown" name="card[expire-month]">
+          <select
+            (change)="dateValidation()"
+            class="ui fluid search dropdown"
+            formControlName="month"
+            name="card[expire-month]"
+          >
             <option value="">Month</option>
             <option value="1">January</option>
             <option value="2">February</option>
@@ -46,12 +60,19 @@
         </div>
         <div class="field">
           <input
+            (keyup)="dateValidation()"
             type="text"
             name="card[expire-year]"
             maxlength="4"
             placeholder="Year"
+            formControlName="year"
+            (keypress)="numberValidation($event)"
           />
         </div>
+      </div>
+
+      <div class="ui message" *ngIf="dateErrFlag">
+        <p style="color: red; font-weight: bold">* Expiration date error</p>
       </div>
     </div>
   </div>
@@ -63,8 +84,17 @@
       name="card[amount]"
       maxlength="16"
       placeholder="Payment amount"
+      formControlName="amount"
+      (keypress)="numberValidation($event)"
     />
   </div>
 
-  <div class="ui button" tabindex="0">Submit Order</div>
+  <button
+    class="ui primary button"
+    [disabled]="!paymentFormGroup.valid || dateErrFlag"
+    (click)="submit()"
+    tabindex="0"
+  >
+    Submit Order
+  </button>
 </form>
